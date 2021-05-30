@@ -81,6 +81,19 @@ router.post("/search", (req, res) => {
     });
 });
 
+router.post("/delete/:name", (req, res) => {
+  Product.deleteOne({ name: req.body.name })
+    .then((p) => {
+      console.log(p);
+      res.render("home");
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving product.",
+      });
+    });
+});
+
 app.use("/", router);
 
 app.listen(port, function () {
