@@ -15,57 +15,40 @@
   <body>
     <nav class="navbar navbar-dark bg-dark">
         <a class="navbar-brand">A1 Dairy</a>
-        <form class="form-inline">
+        <form class="form-inline" action='/search'>
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add a Product</button>
+        <button type="submit" id="order" >Search</button>
+
         </form>
       </nav>
     <div class="container mt-3 justify-content-center"></div>
       <div class="row">
-        <div class="col">
-            <div class="card" style="width: 18rem">
-                <img
-                  src="https://akm-img-a-in.tosshub.com/sites/btmt/images/stories/milk_660_061615101548.jpg"
-                  class="card-img-top"
-                  alt="..."
-                />
-                <div class="card-body">
-                  <h3 class="card-text">Milk - Rs. 100</h3>
-                  <a href="#" class="btn btn-info">Update</a>
-                  <a href="#" class="btn btn-danger">Delete</a>
+        <% products.forEach(function(item){ %>
+            <div class="col">
+                <div class="card" style="width: 18rem">
+                    <img
+                    src="https://akm-img-a-in.tosshub.com/sites/btmt/images/stories/milk_660_061615101548.jpg"
+                    class="card-img-top"
+                    alt="..."
+                    />
+                    <div class="card-body">
+                        <h3 class="card-text"><%= item.name %></h3>
+                        <h4 class="card-text"><%= item.price %></h4>
+                        <a href="#" class="btn btn-info">Update</a>
+                        <a href="#" class="btn btn-danger">Delete</a>
+                    </div>
                 </div>
-              </div>
-        </div>
-        <div class="col">
-            <div class="card" style="width: 18rem">
-                <img
-                  src="https://akm-img-a-in.tosshub.com/sites/btmt/images/stories/milk_660_061615101548.jpg"
-                  class="card-img-top"
-                  alt="..."
-                />
-                <div class="card-body">
-                  <h3 class="card-text">Milk - Rs. 100</h3>
-                  <a href="#" class="btn btn-info">Update</a>
-                  <a href="#" class="btn btn-danger">Delete</a>
-                </div>
-              </div>
-        </div>
-        <div class="col">
-            <div class="card" style="width: 18rem">
-                <img
-                  src="https://akm-img-a-in.tosshub.com/sites/btmt/images/stories/milk_660_061615101548.jpg"
-                  class="card-img-top"
-                  alt="..."
-                />
-                <div class="card-body">
-                  <h3 class="card-text">Milk - Rs. 100</h3>
-                  <a href="#" class="btn btn-info">Update</a>
-                  <a href="#" class="btn btn-danger">Delete</a>
-                </div>
-              </div>
-        </div>
+            </div>
+            <% }) %>
+        
       </div>
     </div>
+    <form action="/add" method="POST">
+        <input type="text" placeholder="name" name="name">
+        <input type="number" placeholder="price" name="price">
+        <input type="date" placeholder="date" name="expiry">
+        <button type="submit" id="order" >Add a product</button>
+      </form>
     
   </body>
 </html>

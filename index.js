@@ -1,12 +1,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const app = express();
+const bodyParser = require("body-parser");
+
 const Product = require("./Schema/Product");
+const router = express.Router();
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 const port = process.env.PORT || 3000;
 
 mongoose
@@ -21,17 +24,50 @@ mongoose
     process.exit();
   });
 
-app.get("/", function (req, res) {
-  res.render("home");
-});
+// app.get("/", function (req, res) {
+//   res.render("home");
+// });
 
-app.post("/add", function (req, res) {
-  if (!req.body.content) {
+router.post("/add", function (req, res) {
+  console.log(req.body);
+  if (!req.body) {
     return res.status(400).send({
-      message: "Note content can not be empty",
+      message: "Product details content can not be empty",
     });
   }
+
+  const product = new Product({
+    name: req.body.name,
+    price: req.body.price,
+    expiry: req.body.date,
+  });
+
+  product
+    .save()
+    .then((data) => {
+      res.redirect("/");
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while creating the Note.",
+      });
+    });
 });
+
+router.get("/", (req, res) => {
+  Product.find()
+    .then((p) => {
+      console.log(p);
+      res.render("home", { products: p });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving notes.",
+      });
+    });
+});
+
+app.use("/", router);
 
 app.listen(port, function () {
   console.log("server is running on port" + port);
