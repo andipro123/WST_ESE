@@ -49,7 +49,8 @@ router.post("/add", function (req, res) {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while creating the Note.",
+        message:
+          err.message || "Some error occurred while creating the product.",
       });
     });
 });
@@ -62,7 +63,20 @@ router.get("/", (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving notes.",
+        message: err.message || "Some error occurred while retrieving product.",
+      });
+    });
+});
+
+router.post("/search", (req, res) => {
+  Product.findOne({ name: req.body.name })
+    .then((p) => {
+      console.log(p);
+      res.render("home", { products: p });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving product.",
       });
     });
 });
